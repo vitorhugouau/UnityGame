@@ -1,17 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class movimentador : MonoBehaviour
+public class Movimentador : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
+    public float moveSpeed = 5f;
 
     void Update()
-    { 
-        
-        transform.position = new Vector3(transform.position.y + Time.deltaTime, transform.position.y);
-    }
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
 
+        Vector3 movement = new Vector3(moveX, moveY, 0f).normalized;
+
+        transform.position += movement * moveSpeed * Time.deltaTime;
+        
+    }
 }
