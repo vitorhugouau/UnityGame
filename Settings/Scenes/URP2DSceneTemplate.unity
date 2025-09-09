@@ -1476,8 +1476,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1825417293628576642, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
   m_PrefabInstance: {fileID: 2261543865157784644}
   m_PrefabAsset: {fileID: 0}
---- !u!61 &1109365467
-BoxCollider2D:
+--- !u!58 &1109365472
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1510,18 +1510,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.8, y: 0.8}
-    newSize: {x: 0.8, y: 0.8}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.0001, y: 0.0001}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: 0.4}
+  m_Radius: 0.4
 --- !u!1 &1367559608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1849,12 +1839,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7615645938442130298, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.4296
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615645938442130298, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3635
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615645938442130298, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.86
+      value: -7.16
       objectReference: {fileID: 0}
     - target: {fileID: 7615645938442130298, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.59
+      value: 3.54
       objectReference: {fileID: 0}
     - target: {fileID: 7615645938442130298, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1895,7 +1893,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1825417293628576642, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1109365467}
+      addedObject: {fileID: 1109365472}
   m_SourcePrefab: {fileID: 100100000, guid: dec69f8b2be6186459b783f1f1b93ba2, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

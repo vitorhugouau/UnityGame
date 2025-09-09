@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System.Collections;
+using System.Collections.Generic;
 public class Fase : MonoBehaviour
 {
     public GameObject _pedra;
@@ -13,7 +14,14 @@ public class Fase : MonoBehaviour
         largura = altura * (Screen.width / (Screen.height * 1.0f));
     }
 
-    void Start()
+    IEnumerator CriarPedras()
+    {
+        CriarPedra();
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(CriarPedras());
+    }
+
+    void CriarPedra()
     {
         float metadeLargura = largura / 2;
         float metadeAltura = altura / 2;
@@ -26,8 +34,13 @@ public class Fase : MonoBehaviour
             float y = metadeAltura;
 
             Vector3 posicaoAtual = pedraClonada.transform.position;
-            pedraClonada.transform.position = new Vector3(x,y);
+            pedraClonada.transform.position = new Vector3(x, y);
         }
+    }
+
+    void Start()
+    {
+        StartCoroutine(CriarPedras());
     }
 
     void Update()

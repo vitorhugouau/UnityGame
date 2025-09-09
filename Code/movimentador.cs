@@ -1,25 +1,29 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Movimentador : MonoBehaviour
 {
     public float moveSpeed = 5f;
 
-    void Update()
+    private Rigidbody2D rb2D;
+    private Animator animator;
+
+    private Vector2 movement;
+
+    private void Awake()
+    {
+        rb2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = new Vector3(moveX, moveY, 0f).normalized;
+        movement = new Vector2(moveX, moveY).normalized;
 
-        transform.position += movement * moveSpeed * Time.deltaTime;
-
-    }
-    private void LateUpdate()
-    {
-        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
-        Animator animator = GetComponent<Animator>();
-        if (rb2D.linearVelocity.x < 0 || rb2D.linearVelocity.x > 0)
+        if (movement.magnitude > 0)
         {
             animator.Play("Andando");
         }
@@ -28,11 +32,18 @@ public class Movimentador : MonoBehaviour
             animator.Play("Parado");
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision2D)
+
+    private void FixedUpdate()
     {
-        if (collision2D.gameObject.GetComponent<Pedra>() != null)
+        
+        rb2D.MovePosition(rb2D.position + movement * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Pedra>() != null)
         {
-            Application.LoadLevel(Application.loadedLevelName);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
