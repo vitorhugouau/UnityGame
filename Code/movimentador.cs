@@ -1,49 +1,92 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class Movimentador : MonoBehaviour
+public class movimentador : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-
-    private Rigidbody2D rb2D;
-    private Animator animator;
-
-    private Vector2 movement;
-
-    private void Awake()
-    {
-        rb2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-    }
+    [SerializeField]
+    private GameObject GameOver;
+    private AudioSource tocadorAudio;
+    public AudioClip pulo;
+    public AudioClip gameover;
 
     private void Update()
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
+        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
 
-        movement = new Vector2(moveX, moveY).normalized;
-
-        if (movement.magnitude > 0)
+        if (Input.GetKey(KeyCode.RightArrow))
         {
+
+            float velocidadeX =
+            Mathf.Clamp(
+                    rb2D.linearVelocity.x + 0.5f,
+                0,
+                2
+            );
+            rb2D.linearVelocity = new Vector2(velocidadeX,
+                rb2D.linearVelocity.y
+            );
+
+            transform.localScale = new Vector2(2, 2);
+
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            float velocidadeX =
+                Mathf.Clamp(
+                    rb2D.linearVelocity.x - 0.5f,
+                    -2,
+                    0);
+
+            rb2D.linearVelocity = new Vector2(velocidadeX,
+                rb2D.linearVelocity.y
+            );
+            transform.localScale = new Vector2(-2, 2);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            rb2D.AddForce(new Vector2(0, 250));
+            tocadorAudio.PlayOneShot(pulo);
+        }
+    }
+    private void LateUpdate()
+    {
+        //física    //var  //busca comp. //componenteDaFisica
+        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
+        Animator animator = GetComponent<Animator>();
+        //variavel esquerda ou variavel direita
+        if (rb2D.linearVelocity.x < 0 || rb2D.linearVelocity.x > 0)
+        {
+            //variavel usa a função Play que aponta pro comportamento
             animator.Play("Andando");
         }
         else
         {
+            //variavel usa a função Play que aponta pro comportamento
             animator.Play("Parado");
         }
     }
-
-    private void FixedUpdate()
+    private void OnCollisionEnter2D(Collision2D collision2D)
     {
-        
-        rb2D.MovePosition(rb2D.position + movement * moveSpeed * Time.fixedDeltaTime);
+        if (collision2D.gameObject.GetComponent<Pedra>() != null)
+        {
+            this.GameOver.SetActive(true);
+            Time.timeScale = 0;
+            tocadorAudio.PlayOneShot(gameover);
+            //o jogo para de "rodar"
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void ReiniciaJogo()
     {
-        if (collision.gameObject.GetComponent<Pedra>() != null)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        Time.timeScale = 1;
+        //o jogo volta a "rodar"
+        this.GameOver.SetActive(false);
+        Application.LoadLevel(Application.loadedLevelName);
+    }
+
+    private void Awake()
+    {
+        tocadorAudio = GetComponent<AudioSource>();
     }
 }

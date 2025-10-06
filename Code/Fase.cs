@@ -1,50 +1,40 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 public class Fase : MonoBehaviour
 {
+	private TocadorAudio Tocador;
     public GameObject _pedra;
-    private float largura;
     private float altura;
+    private float largura;
 
-    private void Awake()
-    {
-        Camera camera = GameObject.FindObjectOfType<Camera>();
-        altura = camera.orthographicSize * 2;
-        largura = altura * (Screen.width / (Screen.height * 1.0f));
-    }
+	private void Awake()
+	{
+		Camera camera = GameObject.FindObjectOfType<Camera>();
+		altura = camera.orthographicSize * 2;
+		largura = altura * (Screen.width / (Screen.height * 1.0f));
+	}
 
-    IEnumerator CriarPedras()
-    {
-        CriarPedra();
-        yield return new WaitForSeconds(1.0f);
-        StartCoroutine(CriarPedras());
-    }
+    void Start () {
+		StartCoroutine(CriarPedras());
+	}
+	IEnumerator CriarPedras()
+	{
+		CriarPedra();
+		yield return new WaitForSeconds(1.0f);
+		StartCoroutine(CriarPedras());
+		
+	}
 
-    void CriarPedra()
-    {
-        float metadeLargura = largura / 2;
-        float metadeAltura = altura / 2;
+	private void CriarPedra(){
+		
+		float metadeLargura = largura / 2;
+		float metadeAltura = altura / 2;
 
-        for (int numeroPedra = 1; numeroPedra <= 5; numeroPedra++)
-        {
-            GameObject pedraClonada = GameObject.Instantiate(_pedra);
+		GameObject pedraClonada = GameObject.Instantiate(_pedra);
 
-            float x = Random.Range(-metadeLargura, metadeLargura);
-            float y = metadeAltura;
-
-            Vector3 posicaoAtual = pedraClonada.transform.position;
-            pedraClonada.transform.position = new Vector3(x, y);
-        }
-    }
-
-    void Start()
-    {
-        StartCoroutine(CriarPedras());
-    }
-
-    void Update()
-    {
-
-    }
+		float x = Random.Range(-metadeLargura,metadeLargura);
+		float y = metadeAltura;
+		pedraClonada.transform.position = new Vector2(x,y);
+	}
 }
